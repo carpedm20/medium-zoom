@@ -18,7 +18,7 @@ const mediumZoom = (selector, options = {}) => {
       fn(noop, noop)
     }
 
-  const _handleClick = event => {
+  const _handleClick = (event) => {
     const { target } = event
 
     if (target === overlay) {
@@ -49,7 +49,7 @@ const mediumZoom = (selector, options = {}) => {
     }
   }
 
-  const _handleKeyUp = event => {
+  const _handleKeyUp = (event) => {
     const key = event.key || event.keyCode
 
     // Close if escape key is pressed
@@ -82,7 +82,7 @@ const mediumZoom = (selector, options = {}) => {
 
     zoomOptions = { ...zoomOptions, ...newOptions }
 
-    images.forEach(image => {
+    images.forEach((image) => {
       image.dispatchEvent(
         createCustomEvent('medium-zoom:update', {
           detail: { zoom },
@@ -105,14 +105,14 @@ const mediumZoom = (selector, options = {}) => {
     )
 
     newImages
-      .filter(newImage => images.indexOf(newImage) === -1)
-      .forEach(newImage => {
+      .filter((newImage) => images.indexOf(newImage) === -1)
+      .forEach((newImage) => {
         images.push(newImage)
         newImage.classList.add('medium-zoom-image')
       })
 
     eventListeners.forEach(({ type, listener, options }) => {
-      newImages.forEach(image => {
+      newImages.forEach((image) => {
         image.addEventListener(type, listener, options)
       })
     })
@@ -136,7 +136,7 @@ const mediumZoom = (selector, options = {}) => {
           )
         : images
 
-    imagesToDetach.forEach(image => {
+    imagesToDetach.forEach((image) => {
       image.classList.remove('medium-zoom-image')
       image.dispatchEvent(
         createCustomEvent('medium-zoom:detach', {
@@ -145,13 +145,13 @@ const mediumZoom = (selector, options = {}) => {
       )
     })
 
-    images = images.filter(image => imagesToDetach.indexOf(image) === -1)
+    images = images.filter((image) => imagesToDetach.indexOf(image) === -1)
 
     return zoom
   }
 
   const on = (type, listener, options = {}) => {
-    images.forEach(image => {
+    images.forEach((image) => {
       image.addEventListener(`medium-zoom:${type}`, listener, options)
     })
 
@@ -161,12 +161,12 @@ const mediumZoom = (selector, options = {}) => {
   }
 
   const off = (type, listener, options = {}) => {
-    images.forEach(image => {
+    images.forEach((image) => {
       image.removeEventListener(`medium-zoom:${type}`, listener, options)
     })
 
     eventListeners = eventListeners.filter(
-      eventListener =>
+      (eventListener) =>
         !(
           eventListener.type === `medium-zoom:${type}` &&
           eventListener.listener.toString() === listener.toString()
@@ -268,7 +268,7 @@ const mediumZoom = (selector, options = {}) => {
       }
     }
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       if (target && images.indexOf(target) === -1) {
         resolve(zoom)
         return
@@ -323,7 +323,7 @@ const mediumZoom = (selector, options = {}) => {
           ? zoomOptions.template
           : document.querySelector(zoomOptions.template)
         active.template = document.createElement('div')
-        active.template.appendChild(template.content.cloneNode(true))
+        active.template.appendChild(template.cloneNode(true))
 
         document.body.appendChild(active.template)
       }
@@ -408,7 +408,7 @@ const mediumZoom = (selector, options = {}) => {
   }
 
   const close = () =>
-    new Promise(resolve => {
+    new Promise((resolve) => {
       if (isAnimating || !active.original) {
         resolve(zoom)
         return
